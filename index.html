@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)file:///C:/Users/ema/Downloads/emabol-champ_58.html -->
+<!-- saved from url=(0051)file:///C:/Users/ema/Downloads/emabol-champ_59.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -46,8 +46,11 @@ h1,h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:1
 #intro-ov{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease}
 #intro-ov.gone{opacity:0;pointer-events:none}
 #intro-ov video{width:100%;height:100%;object-fit:cover;display:block}
+<style>
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+#intro-ov.gone{opacity:0;pointer-events:none;transition:opacity .7s ease}
 </style>
-<link rel="manifest" href="blob:null/28088779-4111-4626-90a7-764a9eec2fcb"></head>
+<link rel="manifest" href="blob:null/d1fbf1a8-faf5-4e89-8daf-96e212a2985f"></head>
 <body>
 
 <div id="app"><div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;background:linear-gradient(180deg,#05050f,#0d0d1a,#05050f);position:relative;overflow:hidden">
@@ -76,23 +79,22 @@ h1,h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;letter-spacing:1
 <script>
 
 (function(){
-  var ov=document.getElementById('intro-ov');
-  var vid=document.getElementById('intro-vid');
-  if(!ov||!vid)return;
-  if(sessionStorage.getItem('emb_intro')){ov.remove();return;}
+  var ov = document.getElementById('intro-ov');
+  if(!ov) return;
+  // Check if already seen in this session
+  if(sessionStorage.getItem('emb_intro')){
+    ov.remove(); return;
+  }
   function dismiss(){
-    if(ov.classList.contains('gone'))return;
+    if(!ov || ov.classList.contains('gone')) return;
     ov.classList.add('gone');
     sessionStorage.setItem('emb_intro','1');
-    setTimeout(function(){ov.remove();},750);
+    setTimeout(function(){ if(ov) ov.remove(); }, 750);
   }
-  vid.addEventListener('ended',dismiss);
-  ov.addEventListener('click',dismiss);
-  setTimeout(dismiss,3000); // fallback max 9s
-  vid.play().catch(function(){
-    // Video can't autoplay (TWA/mobile restriction) — dismiss immediately
-    setTimeout(dismiss, 500);
-  });
+  // Dismiss after 2s
+  setTimeout(dismiss, 2000);
+  // Or on tap
+  ov.addEventListener('click', dismiss);
 })();
 
 'use strict';
